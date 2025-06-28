@@ -1,11 +1,7 @@
 import './App.css';
-import QRScanner from './components/QRScanner.tsx';
-function App() {
-  return (
-    <div className="App">
-      <QRScanner />
-    </div>
-  );
-}
+import QrScanner from './components/QrScanner.tsx';
 
+function App() {
+  return <QrScanner />;
+};
 export default App;
