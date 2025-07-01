@@ -121,7 +121,6 @@ const buttonStyle: React.CSSProperties = {
   marginRight: "auto",
 };
 
-// 👇 Add this to your global CSS (e.g., styles.css)
 const style = document.createElement("style");
 style.innerHTML = `
   .scanner-container {

@@ -1,5 +1,5 @@
 import './App.css';
-import QrScanner from './components/QrScanner.tsx';
+import QrScanner from './components/QRScanner.tsx';
 
 function App() {
   return <QrScanner />;
