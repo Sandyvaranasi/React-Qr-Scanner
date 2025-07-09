@@ -8,6 +8,10 @@ const QrScanner: React.FC = () => {
   const [isLoadingCamera, setIsLoadingCamera] = useState(false);
   const qrRegionId = "qr-reader";
 
+  const isIPhone = /iPhone/i.test(navigator.userAgent);
+
+  const qrBoxSize = isIPhone ? 220 : 250;
+
   const startScanning = async () => {
     try {
       setIsLoadingCamera(true);
@@ -16,16 +20,19 @@ const QrScanner: React.FC = () => {
         scannerRef.current = new Html5Qrcode(qrRegionId);
       }
 
-      if (scannerRef.current.getState() === Html5QrcodeScannerState.NOT_STARTED) {
+      const state = scannerRef.current.getState();
+      if (
+        state === Html5QrcodeScannerState.NOT_STARTED ||
+        state === Html5QrcodeScannerState.PAUSED
+      ) {
         const devices = await Html5Qrcode.getCameras();
         if (devices && devices.length > 0) {
           await scannerRef.current.start(
             { facingMode: "environment" },
             {
-              fps: 15, // higher fps = faster scan
-              qrbox: { width: 250, height: 250 },
-              disableFlip: false,
-              aspectRatio: 1.0,
+              fps: 15,
+              qrbox: { width: qrBoxSize, height: qrBoxSize },
+              disableFlip: true,
             },
             (decodedText) => {
               setScannedResult(decodedText);
@@ -105,17 +112,14 @@ const QrScanner: React.FC = () => {
   );
 };
 
-// 👇 Mobile responsive styles
 const buttonStyle: React.CSSProperties = {
   padding: "10px 20px",
   fontSize: "16px",
-  margin: "8px",
+  margin: "8px auto",
   cursor: "pointer",
   width: "90%",
   maxWidth: "400px",
   display: "block",
-  marginLeft: "auto",
-  marginRight: "auto",
 };
 
 const style = document.createElement("style");
@@ -139,6 +143,7 @@ style.innerHTML = `
     border-radius: 8px;
     overflow: hidden;
     border: 2px solid #ccc;
+    background: #000;
   }
 
   .scanner-controls {
