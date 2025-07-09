@@ -23,10 +23,7 @@ const QrScanner: React.FC = () => {
             { facingMode: "environment" },
             {
               fps: 15, // higher fps = faster scan
-              qrbox: (viewportWidth: number, viewportHeight: number) => {
-                const minEdge = Math.min(viewportWidth, viewportHeight);
-                return { width: minEdge * 0.8, height: minEdge * 0.8 };
-              },
+              qrbox: { width: 250, height: 250 },
               disableFlip: false,
               aspectRatio: 1.0,
             },
